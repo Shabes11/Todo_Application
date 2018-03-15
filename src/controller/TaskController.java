@@ -3,10 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package controller;
+
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import model.Task;
 import java.util.List;
 import view.UserInput;
@@ -16,73 +20,109 @@ import view.UserInput;
  * @author shoaib
  */
 public class TaskController {
-    
+
     private List<Task> taskList;
-    
-    
-    public TaskController(){
-        taskList  = new ArrayList <>();
-        
-    }
-    
-  
-    public boolean addTask(Task t){
-        //Task t = new Task();
-       taskList.add(t);
-       return true;
-      
-   }
-   
-   public Task getTask(int index){ 
-       
-      return this.taskList.get(index);
-   
-   }
-   
-   public void removeTask(int i){
-      this.taskList.remove(i);
-     }
-   
-     public void editTask(int index, String title, String projectTitle){
-      Task t = this.taskList.get(index);
-      
-      String name = getInput();
-      t.setTitle(title);
-      //t.setDueDate(LocalDate.MAX);
-      t.setProject(projectTitle);
-   }
-   
-   public void markAsDone(int index){
-       this.taskList.get(index).setStatusDone();
-   
-    }
-    
-   
-   public static void main(String[] args){
-    
-       TaskController tc = new TaskController();
-       int i = 0;
-       while (i<=5){
-       tc.addTask(new Task("Do home work", "Home work")); 
-       i++;
-       }
-       
-       tc.editTask(2, "new Title is", "new project");
-       
-       for(Task t : tc.taskList){
-           
-           System.out.println(t);
-       }
-    
+    private UserInput userInput;
 
-    
-    
+    public TaskController() {
+        taskList = new ArrayList<>();
+        userInput = new UserInput();
+
     }
 
-    private String getInput() {
-        System.out.println("Please enter input");
-       String name = UserInput.getInput();
-        return (name);
+    /**
+     * Makes a new task by taking user input and Adds the task to the
+     * <code>taskList</code>
+     */
+    public void AddnewTask() {
+        String taskTitle = getInputTaskTitle();
+        Date dueDate = getInputDueDate();
+        String projectTitle = getInputProjectTitle();
+        Task t = new Task(taskTitle, dueDate, projectTitle);
+        taskList.add(t);
+
     }
-    
+
+    public Task getTask(int index) {
+
+        return this.taskList.get(index);
+
+    }
+
+    public void removeTask(int i) {
+        this.taskList.remove(i);
+    }
+
+    /**
+     * Edits the Specific Task
+     *
+     * @param index No. of task to be edited
+     * @param taskTitle The new Task title
+     * @param projectTitle The new project title
+     */
+    public void editTask(int index, String taskTitle, String projectTitle) {
+        Task t = this.taskList.get(index);
+
+        taskTitle = getInputTaskTitle();
+        t.setTitle(taskTitle);
+
+        projectTitle = getInputProjectTitle();
+        t.getProject();
+        t.setProject(projectTitle);
+    }
+
+    /**
+     * Marks the specific task as done
+     *
+     * @param index
+     */
+    public void markAsDone(int index) {
+        this.taskList.get(index).setStatusDone();
+
+    }
+
+    private String getInput2(String msg) {
+        System.out.println("Please enter input " + msg);
+        return userInput.getInput();
+
+    }
+
+    /**
+     * Gets the task title from the user
+     *
+     * @return Task title
+     */
+    public String getInputTaskTitle() {
+        return getInput2("Task Title");
+
+    }
+
+    /**
+     * Gets the project title from the user
+     *
+     * @return Project title
+     */
+    public String getInputProjectTitle() {
+        return getInput2("Project Title ");
+    }
+
+    /**
+     * To get the due date from the user
+     *
+     * @return Due date
+     */
+    public Date getInputDueDate() {
+        String dateStr = getInput2("Due Date");
+        Date date = new Date();
+
+        try {
+            SimpleDateFormat formatter = new SimpleDateFormat("YYYY-MM-dd");
+            date = formatter.parse(dateStr);
+
+        } catch (ParseException pe) {
+            System.out.print(pe.getMessage());
+        }
+        return date;
+    }
+
 }
