@@ -1,7 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * This class is the part of the Todo application. To do application is a simple application that
+ *allows user to add, remove and a edit a Task. Application receives input via console.
+ *
+ * This is a view class which is responsible for taking the user input.
  */
 package view;
 

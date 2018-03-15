@@ -1,7 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * This class is the part of the Todo application. To do application is a simple application that
+ *allows user to add, remove and a edit a Task. Application receives input via console.
+ *
+ * This class is provides the Task object that stores information of Task. 
  */
 package model;
 
@@ -21,10 +22,11 @@ public class Task {
     private boolean isDone;
 
     /**
-     * Constructor for class Task
+     * Constructor for class Task, Creates the object Task
      *
      * @param Title- Title of the task
      * @param project- Name of the project that task belongs to
+     * @param date - the date object that contain the due date of the task
      */
     public Task(String Title, Date date, String project) {
 
@@ -88,7 +90,10 @@ public class Task {
     }
 
     @Override
-
+    /**
+     * Override the String method, representing the string representation of Task object
+     * @return the string representation of Task object
+     */
     public String toString() {
 
         return "Title: " + taskTitle + ",   " + "DueDate: "

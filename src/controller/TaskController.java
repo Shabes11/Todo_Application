@@ -1,7 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * This class is the part of the Todo application. To do application is a simple application that
+ *allows user to add, remove and a edit a Task. Application receives input via console.
+ *
+ * This class contains the list of task objects. and contains the method to filter ,adding and editing a task
  */
 package controller;
 
@@ -44,7 +45,6 @@ public class TaskController {
     }
 
     public Task getTask(int index) {
-
         return this.taskList.get(index);
 
     }
@@ -60,6 +60,7 @@ public class TaskController {
      * @param taskTitle The new Task title
      * @param projectTitle The new project title
      */
+    
     public void editTask(int index, String taskTitle, String projectTitle) {
         Task t = this.taskList.get(index);
 
@@ -107,7 +108,7 @@ public class TaskController {
     }
 
     /**
-     * To get the due date from the user
+     * Gets the due date from the user
      *
      * @return Due date
      */
