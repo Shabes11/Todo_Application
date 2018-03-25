@@ -25,7 +25,7 @@ public class UserInput {
         try {
             s = sc.nextLine();
         } catch (Exception e) {
-            System.out.println("there is ");
+            System.out.println(e.getMessage());
         }
         return s;
     }

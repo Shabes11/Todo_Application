@@ -5,6 +5,8 @@
  */
 package view;
 import controller.TaskController;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  *
@@ -12,5 +14,14 @@ import controller.TaskController;
  */
 public class Display {
     
+ public static void main(String[] args){
     
+    
+    System.out.println("************* WelCome to the ToDo List *******************");
+    System.out.println("*************##########################*******************");
+    System.out.println(">> You have x Tasks to do and y Tasks are done ");
+     String pattern = "yyyy-MM-dd";
+
+ }
+ 
 }

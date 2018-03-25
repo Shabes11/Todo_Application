@@ -7,7 +7,6 @@
 package model;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -18,7 +17,7 @@ public class Task {
 
     private String taskTitle;
     private Date dueDate;
-    private String project;
+    private String projectTitle;
     private boolean isDone;
 
     /**
@@ -28,11 +27,11 @@ public class Task {
      * @param project- Name of the project that task belongs to
      * @param date - the date object that contain the due date of the task
      */
-    public Task(String Title, Date date, String project) {
+    public Task(String Title, Date date ,String project) {
 
         this.taskTitle = Title;
         this.dueDate = date;
-        this.project = project;
+        this.projectTitle = project;
         this.isDone = false;
 
     }
@@ -56,8 +55,8 @@ public class Task {
 
     }
 
-    public String getProject() {
-        return this.project;
+    public String getProjectTitle() {
+        return this.projectTitle;
     }
 
     public boolean getStatus() {
@@ -76,8 +75,8 @@ public class Task {
         this.dueDate = date;
     }
 
-    public void setProject(String project) {
-        this.project = project;
+    public void setProjectTitle(String project) {
+        projectTitle = project;
     }
 
     public void setStatusDone() {
@@ -88,6 +87,12 @@ public class Task {
         this.isDone = false;
 
     }
+    
+     String formatOutputDate(){
+       SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+       String date = simpleDateFormat.format(getDate());
+       return date;
+     } 
 
     @Override
     /**
@@ -97,7 +102,7 @@ public class Task {
     public String toString() {
 
         return "Title: " + taskTitle + ",   " + "DueDate: "
-                + dueDate + ",   " + "Project: " + project;
+                + formatOutputDate() + ",   " + "Project: " + projectTitle;
     }
 
 }
