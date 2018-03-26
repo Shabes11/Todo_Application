@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import model.Task;
 import java.util.List;
+import java.util.stream.Collectors;
 import view.UserInput;
 
 /**
@@ -56,11 +57,8 @@ public class TaskController {
      * Edits the Specific Task
      *
      * @param index No. of task to be edited
-     * @param taskTitle The new Task title
-     * @param projectTitle The new project title
      */
     public void editTask(int index) {
-
         Task t = getTask(index);
         String newTaskTitle = getInputTaskTitle();
         if (true) {
@@ -136,44 +134,91 @@ public class TaskController {
         taskList.forEach(Task -> System.out.println(Task.toString()));
 
     }
-    
+
     /**
-     * Prints the list of <code> Task  </code> filtered by project
-     * @param project Title of project wants to filter 
+     * Prints the list of <code> Task </code> filtered by project
+     *
+     * @param projectTitle to filter the tasks
+     */
+    public void filteredByProject(String projectTitle) {
+
+        taskList.stream()
+                .filter(s -> projectTitle.equals(s.getProjectTitle()))
+                .forEach(s -> System.out.println(s.toString()));
+    }
+
+    /**
+     * Prints the list of <code> Task </code> filtered by Title
+     *
+     * @param Title to filter the task
      */
     
-    public void printTasksFilteredByProject(String projectTitle){
-       
-        taskList.stream()
-                .filter( s -> projectTitle.equals(s.getProjectTitle()))
-                .forEach( s -> System.out.println(s.toString()));
+    public List<Task> filteredByTaskTitle(String taskTitle) {
+        String tasks = "";
+        List<Task> result
+                = taskList.stream()
+                        .filter(s -> taskTitle.equals(s.getTaskTitle()))
+                        .collect(Collectors.toList());
+                      //.forEach(s-> System.out.println(s.toString()));
+        return result;
     }
     
-    public void printTaskFilteredByTaskTitle(String taskTitle){
-        taskList.stream()
-                .filter(s-> taskTitle.equals(s.getTaskTitle()))
-                .forEach(s-> System.out.println(s));
+    /**
+     * List out the Completed tasks
+     * @return List of tasks
+     */
+    public List<Task> getCompletedTasks(){
+        return taskList.stream()
+                .filter(t-> t.getStatus()==true)
+                .collect(Collectors.toList());
+   }
+    
+    
+    /**
+     * List out the UnCompleted tasks
+     * @return List of tasks
+     */
+    public List<Task>getUnCompletedTasks(){
+       return  taskList.stream()
+                 .filter(t-> t.getStatus()==false)
+                 .collect(Collectors.toList());
     
     }
+    
+    
+    /**
+     * Counts the no of completed tasks
+     * @return no of complected tasks 
+     */
+    public int countComplectedTasks(){
+       return getCompletedTasks().size();
+    }
+    
+    /**
+     * Counts the no of uncompleted tasks
+     * @return no of complected tasks 
+     */
+    public int countUnCompletedTask(){
+        return getUnCompletedTasks().size();
+    }
+
     
     
     
     
     //Main to test the program!. ************************'
-
     public static void main(String[] args) {
         TaskController t = new TaskController();
         t.AddnewTask();
         t.AddnewTask();
         t.AddnewTask();
 
-       
         t.printTaskList();
         String project = t.getInputProjectTitle();
-        t.printTasksFilteredByProject(project);
+        t.filteredByProject(project);
         String title = t.getInputTaskTitle();
-        t.printTaskFilteredByTaskTitle(title);
-        
+        t.filteredByTaskTitle(title);
+
     }
 
 }
