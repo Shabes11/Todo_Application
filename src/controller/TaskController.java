@@ -11,6 +11,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import model.Task;
 import java.util.List;
@@ -141,7 +142,6 @@ public class TaskController {
      * @param projectTitle to filter the tasks
      */
     public void filteredByProject(String projectTitle) {
-
         taskList.stream()
                 .filter(s -> projectTitle.equals(s.getProjectTitle()))
                 .forEach(s -> System.out.println(s.toString()));
@@ -152,73 +152,68 @@ public class TaskController {
      *
      * @param Title to filter the task
      */
-    
     public List<Task> filteredByTaskTitle(String taskTitle) {
-        String tasks = "";
         List<Task> result
                 = taskList.stream()
                         .filter(s -> taskTitle.equals(s.getTaskTitle()))
                         .collect(Collectors.toList());
-                      //.forEach(s-> System.out.println(s.toString()));
+        //.forEach(s-> System.out.println(s.toString()));
         return result;
     }
-    
+
     /**
      * List out the Completed tasks
+     *
      * @return List of tasks
      */
-    public List<Task> getCompletedTasks(){
+    public List<Task> getCompletedTasks() {
         return taskList.stream()
-                .filter(t-> t.getStatus()==true)
+                .filter(t -> t.getStatus() == true)
                 .collect(Collectors.toList());
-   }
-    
-    
+    }
+
     /**
      * List out the UnCompleted tasks
+     *
      * @return List of tasks
      */
-    public List<Task>getUnCompletedTasks(){
-       return  taskList.stream()
-                 .filter(t-> t.getStatus()==false)
-                 .collect(Collectors.toList());
-    
+    public List<Task> getUnCompletedTasks() {
+        return taskList.stream()
+                .filter(t -> t.getStatus() == false)
+                .collect(Collectors.toList());
+
     }
-    
-    
+
     /**
      * Counts the no of completed tasks
-     * @return no of complected tasks 
+     *
+     * @return no of complected tasks
      */
-    public int countComplectedTasks(){
-       return getCompletedTasks().size();
+    public int countComplectedTasks() {
+        return getCompletedTasks().size();
     }
-    
+
     /**
      * Counts the no of uncompleted tasks
-     * @return no of complected tasks 
+     *
+     * @return no of complected tasks
      */
-    public int countUnCompletedTask(){
+    public int countUnCompletedTask() {
         return getUnCompletedTasks().size();
     }
 
-    
-    
-    
-    
-    //Main to test the program!. ************************'
-    public static void main(String[] args) {
-        TaskController t = new TaskController();
-        t.AddnewTask();
-        t.AddnewTask();
-        t.AddnewTask();
-
-        t.printTaskList();
-        String project = t.getInputProjectTitle();
-        t.filteredByProject(project);
-        String title = t.getInputTaskTitle();
-        t.filteredByTaskTitle(title);
+    /**
+     * Sorts the tasks according to the due date
+     *
+     * @return the sorted array
+     */
+    public List<Task> sortByDate() {
+        return taskList.stream()
+                .sorted(Comparator.comparing(Task::getDate))
+                .collect(Collectors.toList());
 
     }
+
+   
 
 }
