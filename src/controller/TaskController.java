@@ -9,10 +9,10 @@ package controller;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.Iterator;
 import model.Task;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,13 +31,32 @@ public class TaskController {
         taskList = new ArrayList<>();
         userInput = new UserInput();
 
+        // TO BE REMOVED
+        // ONLY FOR TESTING
+        TestControllerMockup();
+
+    }
+
+    // TO BE REMOVED 
+    // ONLY FOR TESTING
+    void TestControllerMockup() {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date d1 = formatter.parse("2018-03-04");
+            Date d2 = formatter.parse("2018-03-04");
+            Task t1 = new Task("Title1", d1, "P1");
+            Task t2 = new Task("Title2", d2, "P2");
+            taskList.add(t1);
+            taskList.add(t2);
+        } catch (Exception e) { // 
+        }
     }
 
     /**
      * Makes a new task by taking user input and Adds the task to the
      * <code>taskList</code>
      */
-    public void AddnewTask() {
+    public void addNewTask() {
         String taskTitle = getInputTaskTitle();
         Date dueDate = getInputDueDate();
         String projectTitle = getInputProjectTitle();
@@ -45,32 +64,49 @@ public class TaskController {
         taskList.add(t);
     }
 
+    public List<Task> getTaskList() {
+        return taskList;
+
+    }
+
     public Task getTask(int index) {
         return taskList.get(index);
 
     }
 
-    public void removeTask(int i) {
-        taskList.remove(i);
-    }
-
+//    public void removeTask(int i) {
+//        boolean run = true;
+//        while (run) {
+//            if (i < taskList.size() && taskList != null) {
+//                taskList.remove(i);
+//                run = false;
+//            } else {
+//                throw new ArrayIndexOutOfBoundsException("No should be between limits");
+//            }
+//        }
+//    }
+//    public void removeTask(int i) {
+//            taskList.remove(i);
+//        }
     /**
      * Edits the Specific Task
      *
      * @param index No. of task to be edited
      */
     public void editTask(int index) {
-        Task t = getTask(index);
-        String newTaskTitle = getInputTaskTitle();
-        if (true) {
+        if (taskList != null && index < taskList.size()) {
+            Task t = getTask(index);
+            String newTaskTitle = getInputTaskTitle();
             t.setTitle(newTaskTitle);
+
+            String newProjectTitle = getInputProjectTitle();
+            t.setProjectTitle(newProjectTitle);
+
+            Date dueDate = getInputDueDate();
+            t.setDueDate(dueDate);
+        } else {
+            System.out.println("Please enter the correct digit");
         }
-
-        String newProjectTitle = getInputProjectTitle();
-        t.setProjectTitle(newProjectTitle);
-
-        Date dueDate = getInputDueDate();
-        t.setDueDate(dueDate);
     }
 
     /**
@@ -141,7 +177,7 @@ public class TaskController {
      *
      * @param projectTitle to filter the tasks
      */
-    public void filteredByProject(String projectTitle) {
+    public void filterByProject(String projectTitle) {
         taskList.stream()
                 .filter(s -> projectTitle.equals(s.getProjectTitle()))
                 .forEach(s -> System.out.println(s.toString()));
@@ -153,11 +189,9 @@ public class TaskController {
      * @param Title to filter the task
      */
     public List<Task> filteredByTaskTitle(String taskTitle) {
-        List<Task> result
-                = taskList.stream()
-                        .filter(s -> taskTitle.equals(s.getTaskTitle()))
-                        .collect(Collectors.toList());
-        //.forEach(s-> System.out.println(s.toString()));
+        List<Task> result = taskList.stream()
+                .filter(t -> taskTitle.equals(t.getTaskTitle()))
+                .collect(Collectors.toList());
         return result;
     }
 
@@ -204,16 +238,33 @@ public class TaskController {
 
     /**
      * Sorts the tasks according to the due date
-     *
      * @return the sorted array
      */
+    
     public List<Task> sortByDate() {
         return taskList.stream()
                 .sorted(Comparator.comparing(Task::getDate))
                 .collect(Collectors.toList());
-
     }
 
-   
+    public List<Task> sortByProject() {
+        return taskList.stream()
+                .sorted((a, b) -> a.getProjectTitle().compareToIgnoreCase(b.getProjectTitle()))
+                .collect(Collectors.toList());
+    }
+
+    public void removeTask(String input) {
+        boolean isFound = false;
+        Iterator<Task> it = taskList.iterator();
+        while (it.hasNext()) {
+            if (it.next().getTaskTitle().equals(input)) {
+                it.remove();
+                System.out.println("Item Deleted......");
+                isFound = true;
+            }
+        }
+        if(!isFound){
+        System.out.println("Item does not exist");}
+    }
 
 }
