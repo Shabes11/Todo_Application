@@ -18,9 +18,15 @@ import model.Task;
  */
 public class Display {
 
-    TaskController tc = new TaskController();
-    Scanner sc = new Scanner(System.in);
+    TaskController tc ;
+    Scanner sc ;
     int userInput;
+    
+    public Display(){
+      sc = new Scanner(System.in);
+      tc = new TaskController();
+      tc.readFile();
+    }
 
     public void mainMenu() {
         System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
@@ -59,15 +65,15 @@ public class Display {
 
                 case 4:
                     tc.writeFile();
-                    //Save n quit
-                    break;
+                    System.out.println("Thanks See you soon!!!!!");
+                    return;
 
                 case 9:
                     System.out.println("Thanks See you soon!!!!!");
                     return;
 
                 default:
-                    System.out.println("Please enter the correct value or Enter (9) to exit!");
+                    System.out.println("Please enter the correct value or Enter (9) to exit with out saving 1!");
 
             }
 
@@ -182,6 +188,7 @@ public class Display {
     public static void main(String[] args) {
         Display dp = new Display();
         dp.userOptions();
+        
 
     }
 
