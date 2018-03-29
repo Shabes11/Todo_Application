@@ -58,6 +58,7 @@ public class Display {
                     break;
 
                 case 4:
+                    tc.writeFile();
                     //Save n quit
                     break;
 
@@ -116,7 +117,7 @@ public class Display {
         System.out.println(">>(3) Remove a task ");
 
         int option3Input = readInt();
-        
+
         switch (option3Input) {
             case 1:
                 while (true) {
@@ -130,25 +131,23 @@ public class Display {
                     }
                 }
                 break;
-                
+
             case 2:
                 System.out.println("Please enter of task number which you want to mark as done");
                 tc.markAsDone(readInt());
                 break;
-                
+
             case 3:
                 List<Task> result = tc.sortByDate();
-                result.stream().forEach(
-                        (t -> System.out.println(t)));
-                
+                result.stream().forEach((t -> System.out.println(t)));
                 tc.removeTask(readString("Enter the Title of Task you want to Remove"));
         }
     }
-    
+
     /**
-     * 
+     *
      * @param msg
-     * @return 
+     * @return
      */
     int readInt(String msg) {
         if (msg != null) {
@@ -167,20 +166,18 @@ public class Display {
     int readInt() {
         return readInt(null);
     }
-    
+
     /**
-     * 
+     *
      * @param msg
-     * @return 
+     * @return
      */
-    String readString(String msg){
+    String readString(String msg) {
         if (msg != null) {
             System.out.println(msg);
         }
         return sc.next();
     }
-            
-
 
     public static void main(String[] args) {
         Display dp = new Display();
