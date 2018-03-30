@@ -18,26 +18,28 @@ import model.Task;
  */
 public class Display {
 
-    TaskController tc ;
-    Scanner sc ;
+    TaskController tc;
+    Scanner sc;
     int userInput;
-    
-    public Display(){
-      sc = new Scanner(System.in);
-      tc = new TaskController();
-      tc.readFile();
+
+    public Display() {
+        sc = new Scanner(System.in);
+        tc = new TaskController();
+        tc.readFile();
     }
 
     public void mainMenu() {
         System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         System.out.println("************* WelCome to the ToDo List *******************");
+        System.out.println("~~~~~~~~~~~~~~~~~ MAIN MENUE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-        System.out.println(">> You have  " + tc.countUnCompletedTask() + "  Tasks to do and  " + tc.countComplectedTasks() + "  Tasks are done ");
+        System.out.println(">> You have  (" + tc.countUnCompletedTask() + ")  Tasks to do and  (" + tc.countComplectedTasks() + ")  Tasks are done ");
         System.out.println(">> Pick an option: ");
         System.out.println(">> (1) Show the task list ");
         System.out.println(">> (2) Add new task ");
         System.out.println(">> (3) Edit a Task ");
         System.out.println(">> (4) Save and quit ");
+        System.out.println(">> (9) Quit without saving ");
         System.out.print(">");
 
     }
@@ -65,15 +67,15 @@ public class Display {
 
                 case 4:
                     tc.writeFile();
-                    System.out.println("Thanks See you soon!!!!!");
+                    System.out.println("Thanks! Thanks for using todoly!!!!!");
                     return;
 
                 case 9:
-                    System.out.println("Thanks See you soon!!!!!");
+                    System.out.println("Thanks for using todoly!!!!!");
                     return;
 
                 default:
-                    System.out.println("Please enter the correct value or Enter (9) to exit with out saving 1!");
+                    System.out.println("Please enter the correct digit (1 - 4) or Enter (9) to exit with out saving!");
 
             }
 
@@ -88,7 +90,7 @@ public class Display {
     }
 
     private void option2() {
-        System.out.println("~~~~SHOWING print options: Please pick one option below~~~~~~");
+        System.out.println("~~SHOWING Listing options: Please pick one option below ~~~~~~");
         System.out.println(">>(1) Show Tasks By Date ");
         System.out.println(">>(2) Show Tasks By Projet ");
 
@@ -117,7 +119,7 @@ public class Display {
     }
 
     private void option3() {
-        System.out.println("~~~~SHOWING Edit Options: Please pick one option below ~~~~~~");
+        System.out.println("~~SHOWING Edit Options: Please pick one option below ~~~~~~");
         System.out.println(">>(1) Update a task ");
         System.out.println(">>(2) Mark as done ");
         System.out.println(">>(3) Remove a task ");
@@ -126,21 +128,17 @@ public class Display {
 
         switch (option3Input) {
             case 1:
-                while (true) {
-                    System.out.println("Please enter of task number which you want to edit");
-                    int userIndex = readInt();
-                    if (tc.getTaskList() != null && userInput < tc.getTaskList().size()) {
-                        tc.editTask(userIndex);
-                        break;
-                    } else {
-                        System.out.println("Please enter the correct digit");
-                    }
-                }
+                printTaskList();
+                String searchTitle = readString("Please enter the Title of task you want to edit");
+                tc.editTask(searchTitle);
+
                 break;
 
             case 2:
-                System.out.println("Please enter of task number which you want to mark as done");
-                tc.markAsDone(readInt());
+                printTaskList();
+                String searchStatus = readString("Please enter the Title of task you want to mark as done");
+                tc.markAsDone(searchStatus);
+
                 break;
 
             case 3:
@@ -148,6 +146,12 @@ public class Display {
                 result.stream().forEach((t -> System.out.println(t)));
                 tc.removeTask(readString("Enter the Title of Task you want to Remove"));
         }
+    }
+
+    private void printTaskList() {
+        System.out.println("Listing the Tasks");
+        List<Task> sortResult = tc.sortByTitle();
+        sortResult.stream().forEach((t -> System.out.println(t)));
     }
 
     /**
@@ -185,11 +189,30 @@ public class Display {
         return sc.next();
     }
 
+    String readString() {
+        return readString(null);
+    }
+
     public static void main(String[] args) {
         Display dp = new Display();
         dp.userOptions();
-        
 
     }
 
+    //To be deleted *************
+//     int option3Input = readInt();
+//
+//        switch (option3Input) {
+//            case 1:
+//                while (true) {
+//                    System.out.println("Please enter of task number which you want to edit");
+//                    int userIndex = readInt();
+//                    if (tc.getTaskList() != null && userInput < tc.getTaskList().size()) {
+//                        tc.editTask(userIndex);
+//                        break;
+//                    } else {
+//                        System.out.println("Please enter the correct digit");
+//                    }
+//                }
+//                break;
 }
