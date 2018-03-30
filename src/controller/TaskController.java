@@ -6,6 +6,7 @@
  */
 package controller;
 
+import integration.FileHandlar;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -26,30 +27,13 @@ public class TaskController {
 
     private List<Task> taskList;
     private UserInput userInput;
+    FileHandlar fileHandlar;
 
     public TaskController() {
         taskList = new ArrayList<>();
         userInput = new UserInput();
+        fileHandlar = new FileHandlar();
 
-        // TO BE REMOVED
-        // ONLY FOR TESTING
-        TestControllerMockup();
-
-    }
-
-    // TO BE REMOVED 
-    // ONLY FOR TESTING
-    void TestControllerMockup() {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        try {
-            Date d1 = formatter.parse("2018-03-04");
-            Date d2 = formatter.parse("2018-03-04");
-            Task t1 = new Task("Title1", d1, "P1");
-            Task t2 = new Task("Title2", d2, "P2");
-            taskList.add(t1);
-            taskList.add(t2);
-        } catch (Exception e) { // 
-        }
     }
 
     /**
@@ -93,29 +77,49 @@ public class TaskController {
      *
      * @param index No. of task to be edited
      */
-    public void editTask(int index) {
-        if (taskList != null && index < taskList.size()) {
-            Task t = getTask(index);
-            String newTaskTitle = getInputTaskTitle();
-            t.setTitle(newTaskTitle);
-
-            String newProjectTitle = getInputProjectTitle();
-            t.setProjectTitle(newProjectTitle);
-
-            Date dueDate = getInputDueDate();
-            t.setDueDate(dueDate);
-        } else {
-            System.out.println("Please enter the correct digit");
+    public void editTask(String searchTitle) {
+        if (taskList != null) {
+            Iterator<Task> it = taskList.iterator();
+            boolean isUppdated = false;
+            while (it.hasNext()) {
+                Task t = it.next();
+                if (t.getTaskTitle().equalsIgnoreCase(searchTitle)) {
+                    String title = getInputTaskTitle();
+                    t.setTitle(title);
+                    Date date = getInputDueDate();
+                    t.setDueDate(date);
+                    String projectTitle = getInputProjectTitle();
+                    t.setProjectTitle(projectTitle);
+                    isUppdated = true;
+                }
+            }
+            if (isUppdated == false) {
+                System.out.println("Item not found!");
+            }
         }
     }
+  
 
     /**
      * Marks the specific task as done
-     *
      * @param index
      */
-    public void markAsDone(int index) {
-        this.taskList.get(index).setStatusDone();
+    public void markAsDone(String searchTitle) {
+        if (taskList != null) {
+            Iterator<Task> it = taskList.iterator();
+            boolean isUppdated = false;
+            while (it.hasNext()) {
+                Task t = it.next();
+                if (t.getTaskTitle().equalsIgnoreCase(searchTitle)) {
+                    t.setStatusDone();
+                    isUppdated = true;
+                    System.out.println("Done!");
+                }
+            }
+            if (isUppdated == false) {
+                System.out.println("Item not found!");
+            }
+        }
     }
 
     private String getInputMsg(String msg) {
@@ -238,9 +242,9 @@ public class TaskController {
 
     /**
      * Sorts the tasks according to the due date
+     *
      * @return the sorted array
      */
-    
     public List<Task> sortByDate() {
         return taskList.stream()
                 .sorted(Comparator.comparing(Task::getDate))
@@ -252,7 +256,17 @@ public class TaskController {
                 .sorted((a, b) -> a.getProjectTitle().compareToIgnoreCase(b.getProjectTitle()))
                 .collect(Collectors.toList());
     }
+    
+    public List<Task> sortByTitle() {
+        return taskList.stream()
+                .sorted((a, b) -> a.getTaskTitle().compareToIgnoreCase(b.getTaskTitle()))
+                .collect(Collectors.toList());
+    }
 
+    /**
+     *
+     * @param input
+     */
     public void removeTask(String input) {
         boolean isFound = false;
         Iterator<Task> it = taskList.iterator();
@@ -263,8 +277,28 @@ public class TaskController {
                 isFound = true;
             }
         }
-        if(!isFound){
-        System.out.println("Item does not exist");}
+        if (!isFound) {
+            System.out.println("Item does not exist");
+        }
+    }
+
+    /**
+     *
+     */
+    public void writeFile() {
+        fileHandlar.writeFile(taskList);
+
+    }
+
+    /**
+     *
+     */
+
+    public void readFile() {
+        List<Task> outTaskList = fileHandlar.readFile();
+        for (Task t : outTaskList) {
+            taskList.add(t);
+        }
     }
 
 }
