@@ -6,6 +6,7 @@
  */
 package model;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -13,7 +14,7 @@ import java.util.Date;
  *
  * @author shoaib
  */
-public class Task {
+public class Task implements Serializable {
 
     private String taskTitle;
     private Date dueDate;
@@ -88,6 +89,13 @@ public class Task {
 
     }
     
+    private String printStatus(){
+        if(isDone == true){
+               return "Task is Complected";
+         } else{
+        return "Task is Uncomplete";}
+    }
+    
      String formatOutputDate(){
        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
        String date = simpleDateFormat.format(getDate());
@@ -101,8 +109,8 @@ public class Task {
      */
     public String toString() {
 
-        return "Title: " + taskTitle + ",   " + "DueDate: "
-                + formatOutputDate() + ",   " + "Project: " + projectTitle;
+        return String.format("%-30s%-30s%20s%-20s","Title: "+taskTitle, "DueDate: "
+                + formatOutputDate(), "Project: "+projectTitle, " Status  "+ printStatus());
     }
 
 }
