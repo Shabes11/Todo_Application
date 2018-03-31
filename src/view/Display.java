@@ -105,7 +105,8 @@ public class Display {
 
             case 2:
                 List<Task> sortResult = tc.sortByProject();
-                sortResult.stream().forEach(t -> f(t, sortResult));
+                sortResult.stream().forEach(t -> System.out.println(t));
+//                sortResult.stream().forEach(t -> f(t, sortResult));
                 break;
 
             default:
