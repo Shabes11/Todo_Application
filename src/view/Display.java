@@ -106,7 +106,6 @@ public class Display {
             case 2:
                 List<Task> sortResult = tc.sortByProject();
                 sortResult.stream().forEach(t -> f(t, sortResult));
-                //t -> System.out.println("(" + tc.getIndexOf(t) +  ")"+ t)
                 break;
 
             default:
@@ -193,13 +192,7 @@ public class Display {
         return readString(null);
     }
 
-    public static void main(String[] args) {
-        Display dp = new Display();
-        dp.userOptions();
-
-    }
-
-    //To be deleted *************
+   //To be deleted *************
 //     int option3Input = readInt();
 //
 //        switch (option3Input) {

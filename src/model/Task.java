@@ -38,8 +38,7 @@ public class Task implements Serializable {
     }
 
     /**
-     * Get method to get the Task title
-     *
+     * Return the <code> Title </code> of the task
      * @return task title
      */
     public String getTaskTitle() {
@@ -47,14 +46,14 @@ public class Task implements Serializable {
     }
 
     /**
-     * Get method to get the due date of the Task
-     *
-     * @return Due date
+     * Returns the due date
+     * @return due date
      */
     public Date getDate() {
         return this.dueDate;
 
     }
+    
 
     public String getProjectTitle() {
         return this.projectTitle;
@@ -66,12 +65,17 @@ public class Task implements Serializable {
     }
 
     /**
-     * Setters
+     * Sets the new value to the Title
+     * @param title string title
      */
     public void setTitle(String title) {
         this.taskTitle = title;
     }
-
+    
+    /**
+     * Sets the new date
+     * @param date object date
+     */
     public void setDueDate(Date date) {
         this.dueDate = date;
     }
@@ -109,8 +113,8 @@ public class Task implements Serializable {
      */
     public String toString() {
 
-        return String.format("%-30s%-30s%20s%-20s","Title: "+taskTitle, "DueDate: "
-                + formatOutputDate(), "Project: "+projectTitle, " Status  "+ printStatus());
+        return String.format("%-30s%-30s%-20s%20s","Title: "+taskTitle, "DueDate: "
+                + formatOutputDate(), "Project: "+projectTitle, " Status:  "+ printStatus());
     }
 
 }

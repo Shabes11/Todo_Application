@@ -21,12 +21,20 @@ public class TaskTest {
     
     public TaskTest() {
     }
+
+    @BeforeClass
+    public static void setUpClass() throws Exception {
+    }
+
+    @AfterClass
+    public static void tearDownClass() throws Exception {
+    }
     
     
     @Before
     public void setUp() {
-        
-        Task instance = new Task("Hello", "project");
+        Date d = new Date();
+        Task instance = new Task("Hello", d,  "project");
     }
     
     @After
@@ -38,26 +46,39 @@ public class TaskTest {
      */
     @Test
     public void testGetTaskTitle() {
-        Task instance = new Task("Hello", "project");
+        Date d = new Date();
+        Task instance = new Task("Hello", d,  "project");
         String expResult = "Hello";
         String result = instance.getTaskTitle();
         assertEquals(expResult, result);
        
     }
 
+    
+
     /**
-     * Test of getDate method, of class Task.
+     * Test of getProjectTitle method, of class Task.
      */
-//    @Test
-//    public void testGetDate() {
-//        System.out.println("getTit");
-//        Task instance = null;
-//        Date expResult = null;
-//        Date result = instance.getDate();
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
+    @Test
+    public void testGetProjectTitle() {
+        Date d = new Date();
+        Task instance = new Task("Hello", d,  "projectTitle");
+        String expResult = "projectTitle";
+        String result = instance.getProjectTitle();
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of getStatus method, of class Task.
+     */
+    @Test
+    public void testGetStatus() {
+        Date d = new Date();
+        Task instance = new Task("Hello", d,  "projectTitle");
+        boolean expResult = false;
+        boolean result = instance.getStatus();
+        assertEquals(expResult, result);
+    }
 
   
     

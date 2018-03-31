@@ -53,29 +53,9 @@ public class TaskController {
 
     }
 
-    public Task getTask(int index) {
-        return taskList.get(index);
-
-    }
-
-//    public void removeTask(int i) {
-//        boolean run = true;
-//        while (run) {
-//            if (i < taskList.size() && taskList != null) {
-//                taskList.remove(i);
-//                run = false;
-//            } else {
-//                throw new ArrayIndexOutOfBoundsException("No should be between limits");
-//            }
-//        }
-//    }
-//    public void removeTask(int i) {
-//            taskList.remove(i);
-//        }
     /**
-     * Edits the Specific Task
-     *
-     * @param index No. of task to be edited
+     * Edits the Specific Task, Update the task title, project title and the project title inputed by user
+     * @param title Title of the task to be edited
      */
     public void editTask(String searchTitle) {
         if (taskList != null) {
@@ -113,7 +93,7 @@ public class TaskController {
                 if (t.getTaskTitle().equalsIgnoreCase(searchTitle)) {
                     t.setStatusDone();
                     isUppdated = true;
-                    System.out.println("Done!");
+                    System.out.println("Task uppdated .......");
                 }
             }
             if (isUppdated == false) {
@@ -129,7 +109,6 @@ public class TaskController {
 
     /**
      * Gets the task title from the user
-     *
      * @return Task title
      */
     public String getInputTaskTitle() {
@@ -138,7 +117,6 @@ public class TaskController {
 
     /**
      * Gets the project title from the user
-     *
      * @return Project title
      */
     public String getInputProjectTitle() {
@@ -146,20 +124,19 @@ public class TaskController {
     }
 
     /**
-     * Gets the due date from the user
-     *
-     * @return Due date
+     * Gets the due date from the user and parse it to date formate
+     * @return Due date in String formate
      */
     public Date getInputDueDate() {
         Date date = new Date();
-        boolean userInput = false;
-        while (userInput == false) {
+        boolean isParsed = false;
+        while (isParsed == false) {
             String dateStr = getInputMsg("Due Date in YYYY-MM-DD format");
 
             try {
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                 date = formatter.parse(dateStr);
-                userInput = true;
+                isParsed = true;
 
             } catch (ParseException pe) {
                 System.out.print(pe.getMessage());
@@ -169,16 +146,7 @@ public class TaskController {
     }
 
     /**
-     * Prints the list of Tasks
-     */
-    public void printTaskList() {
-        taskList.forEach(Task -> System.out.println(Task.toString()));
-
-    }
-
-    /**
      * Prints the list of <code> Task </code> filtered by project
-     *
      * @param projectTitle to filter the tasks
      */
     public void filterByProject(String projectTitle) {
@@ -189,8 +157,8 @@ public class TaskController {
 
     /**
      * Prints the list of <code> Task </code> filtered by Title
-     *
-     * @param Title to filter the task
+     * @param taskTitle to filter the task
+     * @return List of tasks
      */
     public List<Task> filteredByTaskTitle(String taskTitle) {
         List<Task> result = taskList.stream()
@@ -201,7 +169,6 @@ public class TaskController {
 
     /**
      * List out the Completed tasks
-     *
      * @return List of tasks
      */
     public List<Task> getCompletedTasks() {
@@ -211,8 +178,7 @@ public class TaskController {
     }
 
     /**
-     * List out the UnCompleted tasks
-     *
+     * return the list the UnCompleted tasks
      * @return List of tasks
      */
     public List<Task> getUnCompletedTasks() {
@@ -223,8 +189,7 @@ public class TaskController {
     }
 
     /**
-     * Counts the no of completed tasks
-     *
+     * Counts the no of completed task and returns the no. of them
      * @return no of complected tasks
      */
     public int countComplectedTasks() {
@@ -233,7 +198,6 @@ public class TaskController {
 
     /**
      * Counts the no of uncompleted tasks
-     *
      * @return no of complected tasks
      */
     public int countUnCompletedTask() {
@@ -241,8 +205,7 @@ public class TaskController {
     }
 
     /**
-     * Sorts the tasks according to the due date
-     *
+     * Sorts the tasks according to the due date and returns the list
      * @return the sorted array
      */
     public List<Task> sortByDate() {
@@ -250,13 +213,21 @@ public class TaskController {
                 .sorted(Comparator.comparing(Task::getDate))
                 .collect(Collectors.toList());
     }
-
+    
+   /**
+    * Sorts the task by project and returns the list of sorted tasks
+    * @return the list of sorted tasks 
+    */
     public List<Task> sortByProject() {
         return taskList.stream()
                 .sorted((a, b) -> a.getProjectTitle().compareToIgnoreCase(b.getProjectTitle()))
                 .collect(Collectors.toList());
     }
     
+    /**
+    * Sorts the task by <code> Title </code> and returns the list of sorted tasks
+    * @return the list of sorted tasks 
+    */
     public List<Task> sortByTitle() {
         return taskList.stream()
                 .sorted((a, b) -> a.getTaskTitle().compareToIgnoreCase(b.getTaskTitle()))
@@ -264,8 +235,8 @@ public class TaskController {
     }
 
     /**
-     *
-     * @param input
+     * Removes the task from the list and searched by title
+     * @param input the title of the task to be deleted 
      */
     public void removeTask(String input) {
         boolean isFound = false;
@@ -283,7 +254,7 @@ public class TaskController {
     }
 
     /**
-     *
+     * Writes list to the file
      */
     public void writeFile() {
         fileHandlar.writeFile(taskList);
@@ -291,10 +262,9 @@ public class TaskController {
     }
 
     /**
-     *
+     * reads the file from the list
      */
-
-    public void readFile() {
+     public void readFile() {
         List<Task> outTaskList = fileHandlar.readFile();
         for (Task t : outTaskList) {
             taskList.add(t);
