@@ -1,7 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+* Main class in Todo application contains the main method which initialize the display when user starts the program!
+
  */
 package startup;
 
@@ -9,7 +8,8 @@ import view.Display;
 
 /**
  *
- * @author tmp-sda-1178
+ * @author tmp-sda-1178@kth.se (Shoaib)
+ 
  */
 public class Main {
     
